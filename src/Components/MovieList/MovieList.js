@@ -1,14 +1,16 @@
-import React from "react";
-import Movie from "./Movie";
+import Movie from '../Movie/Movie'
+export default function MovieList(props) {
+    return (
+        <>
 
-function MovieList({ movies }) {
-  return (
-    <div className="movie-list">
-      {movies.map((movie) => (
-        <Movie key={movie.id} movie={movie} />
-      ))}
-    </div>
-  );
+
+            {
+                props.recipes.map(recipe => {
+                    return (
+                        <Movie recipe={recipe} />
+                    )
+                })
+            }
+        </>
+    )
 }
-
-export default MovieList;

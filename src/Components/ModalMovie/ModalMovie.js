@@ -1,28 +1,46 @@
-import { useState } from "react";
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import React, { useState } from 'react';
+export default function ModalMovie(props) {
 
-function ModalMovie(props) {
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
+
 
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
-  const handleSaveComment = () => {
-    props.onSaveComment(comment);
+  const handleAddToFavorite = () => {
+    console.log('Added to favorite:', props.recipe.title, comment);
+
+    props.handleClose();
   };
 
   return (
-    <div className="modal-movie">
-      <img src={props.image} alt={props.title} />
-      <h2>{props.title}</h2>
-      <input
-        type="text"
-        value={comment}
-        onChange={handleCommentChange}
-      />
-      <button onClick={handleSaveComment}>Save</button>
-    </div>
+    <Modal show={props.show} onHide={props.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{props.recipe.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <img src={props.recipe.poster_path} alt={props.recipe.title} />
+        <Form>
+          <Form.Group controlId="comment">
+            <Form.Label>Comment</Form.Label>
+            <Form.Control type="text" placeholder="Enter your comment" value={comment} onChange={handleCommentChange} />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={props.handleClose}>
+          Close
+        </Button>
+        <Button variant="primary" onClick={handleAddToFavorite}>
+          Add to favorite
+        </Button>
+
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default ModalMovie;

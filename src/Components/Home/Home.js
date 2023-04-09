@@ -1,38 +1,42 @@
-import MovieList from "../MovieList/MovieList";
-import React, {useState, useEffect } from 'react';
-import axios from "axios";
-function Home(){
-  const [movies, setMovies] = useState([]); 
-  useEffect(() => {
-    axios.get("/trending").then((response) => {
-      setMovies(response.data);
-    }).catch((error) => {
-      console.error(error);}
-    )
-    fetch("https://api.themoviedb.org/3/trending/all/week?api_key=37ddc7081e348bf246a42f3be2b3dfd0&language=en-US")
-      .then((res) => res.json())
-      .then((data) => setMovies(data.results))
-      .catch((error) => console.log(error));
-  }, []);
-  
-  function addMovieToFavoriteList(movie, comment) {
-    axios.post("/addMovie", { movie, comment }).then((response) => {
-      console.log(response.data);
-      // Handle the response as needed
-    }).catch((error) => {
-      console.error(error);
-      // Handle the error as needed
-    });
-  }
-  return (
-    <div className="home">
-    <MovieList movies={movies} onSave={addMovieToFavoriteList} />
-    <div>
-      <MovieList movies={movies} />
-    </div>
-    </div>
-  );
-}
 
-export default Home;
-  
+
+import MovieList from '../MovieList/MovieList'
+
+
+import { useState, useEffect } from 'react';
+
+
+export default function Home() {
+    const [recipes, setRecipes] = useState([])
+
+    async function getRecipes() {
+        const url = process.env.REACT_APP_URL;
+
+
+        const response = await fetch(`${url}/trending`);
+
+
+        const recipesData = await response.json();
+
+
+        setRecipes(recipesData);
+
+
+    }
+
+
+
+    useEffect(() => {
+        getRecipes();
+    }, [])
+
+    return (
+        <>
+            <h2> Movie-List</h2>
+
+
+
+            <MovieList recipes={recipes} />
+        </>
+    )
+}

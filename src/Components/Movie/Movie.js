@@ -1,55 +1,37 @@
-import { useState } from "react";
-import axios from "axios";
-import ModalMovie from "./Components/ModalMovie/ModalMovie.js";
 
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import ModalMovie from "../ModalMovie/ModalMovie";
+import { useState } from 'react';
 
-function Movie(props) {
+export default function Movie(props) {
   const [showModal, setShowModal] = useState(false);
-  const [comment, setComment] = useState("");
 
-  const handleAddToFavorites = () => {
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
+  const handleAddToFavorite = () => {
+    console.log('Added to favorite:', props.recipe.title);
     setShowModal(true);
   };
 
-  const handleSave = (movie) => {
-    // Add the movie to the favorite list with the comment
-    // You can use the `props.onSave` callback from the parent component to do this
-    props.onSave(movie, comment);
-
-    // Close the modal
-    setShowModal(false);
-
-    // Store the data in your database using the /addMovie endpoint
-    axios.post("/addMovie", {
-      title: movie.title,
-      image: movie.image,
-      comment: comment,
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  };
-
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
   return (
-    <div className="movie">
-      <img src={props.movie.image} alt={props.movie.title} />
-      <h2>{props.movie.title}</h2>
-      <button onClick={handleAddToFavorites}>Add to favorite</button>
-      {showModal && (
-        <ModalMovie
-          movie={props.movie}
-          onSave={handleSave}
-          onCommentChange={handleCommentChange}
-        />
-      )}
-    </div>
+
+    <>
+
+      <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={props.recipe.poster_path} alt={props.recipe.title} />
+        <Card.Body>
+          <Card.Title>{props.recipe.title}</Card.Title>
+          <Button variant="primary" onClick={handleShowModal}>
+            Details
+          </Button>
+          <Button variant="success" onClick={handleAddToFavorite}>
+            Add to favorite
+          </Button>
+        </Card.Body>
+      </Card>
+      <ModalMovie show={showModal} handleClose={handleCloseModal} recipe={props.recipe} />
+    </>
   );
 }
-export default Movie;
