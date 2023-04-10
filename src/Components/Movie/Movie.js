@@ -10,10 +10,10 @@ export default function Movie(props) {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const handleAddToFavorite = () => {
-    console.log('Added to favorite:', props.recipe.title);
-    setShowModal(true);
-  };
+  //const handleAddToFavorite = () => {
+   // console.log('Added to favorite:', props.recipe.title);
+  //   setShowModal(true);
+  // };
 
   return (
 
@@ -23,15 +23,14 @@ export default function Movie(props) {
         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${props.recipe.poster_path}`} alt={props.recipe.title} />
         <Card.Body>
           <Card.Title>{props.recipe.title}</Card.Title>
+          {/* <Card.Text>{props.re.release_date}</Card.Text> */}
           <Button variant="primary" onClick={handleShowModal}>
-            Details
+           Add to fav
           </Button>
-          <Button variant="success" onClick={handleAddToFavorite}>
-            Add to favorite
-          </Button>
+          
         </Card.Body>
       </Card>
       <ModalMovie show={showModal} handleClose={handleCloseModal} recipe={props.recipe} />
     </>
-  );
+  )
 }

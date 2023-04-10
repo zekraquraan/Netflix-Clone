@@ -1,42 +1,27 @@
-
-
+import{useState,useEffect} from 'react';
 import MovieList from '../MovieList/MovieList'
-
-
-import { useState, useEffect } from 'react';
-
-
-export default function Home() {
-    const [recipes, setRecipes] = useState([])
-
-    async function getRecipes() {
-        const url = 'https://movies-library-pull-9.onrender.com';
-
-
+//import Card from 'react-bootstrap/Card';
+//import Button from 'react-bootstrap/Button';
+export default function Home(){
+    
+    const[recipes,setMovies]=useState([]);
+    async function getMovies(){
+        // const url=process.env.REACT_APP_SERVER_URL;
+        const url='https://movies-library-pull-9.onrender.com'
+        console.log(11111,url)
         const response = await fetch(`${url}/trending`);
-
-
-        const recipesData = await response.json();
-
-
-        setRecipes(recipesData);
-
-
+        console.log(22222,response)
+        const moviesData=await response.json();
+        console.log(333333,moviesData)
+        setMovies(moviesData);
+        console.log(44444,recipes);
     }
-
-
-
-    useEffect(() => {
-        getRecipes();
-    }, [])
-
-    return (
+    useEffect(()=>{getMovies()},[])
+    return(
         <>
-            <h2> Movie-List</h2>
-
-
-
-            <MovieList recipes={recipes} />
+        < MovieList recipes={recipes}/>
         </>
     )
+    
+    
 }
