@@ -10,7 +10,7 @@ export default function Home() {
     const [recipes, setRecipes] = useState([])
 
     async function getRecipes() {
-        const url = process.env.REACT_APP_URL;
+        const url = 'https://movies-library-pull-9.onrender.com';
 
 
         const response = await fetch(`${url}/trending`);

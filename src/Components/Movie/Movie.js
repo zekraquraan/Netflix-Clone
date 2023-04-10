@@ -20,7 +20,7 @@ export default function Movie(props) {
     <>
 
       <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src={props.recipe.poster_path} alt={props.recipe.title} />
+        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500/${props.recipe.poster_path}`} alt={props.recipe.title} />
         <Card.Body>
           <Card.Title>{props.recipe.title}</Card.Title>
           <Button variant="primary" onClick={handleShowModal}>
