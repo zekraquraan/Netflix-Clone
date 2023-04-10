@@ -1,43 +1,48 @@
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import React, { useState } from 'react';
-export default function ModalMovie(props) {
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form'
+import { useRef } from 'react';
+export default function ModalMovie(props){
+    const commentRef=useRef();
+    function submitHandler(e){
+        e.preventDefault();
+        let userComment=commentRef.current.value;
+        console.log("user comment is:",userComment)
 
-  //const [comment, setComment] = useState('');
+        let newMovie={...props.movieData,userComment}
+         console.log(newMovie);
 
-
-  // const handleCommentChange = (event) => {
-  //   setComment(event.target.value);
-  // };
-
-  // const handleAddToFavorite = () => {
-  //   console.log('Added to favorite:', props.recipe.title, comment);
-
-  //   props.handleClose();
-  // };
-
-  return (
-    <Modal show={props.show} onHide={props.handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{props.recipe.title}</Modal.Title>
-      </Modal.Header>
-      <img src={`https://image.tmdb.org/t/p/w500/${props.recipe.poster_path}`} alt={props.recipe.title} />
+         props.commentHandler(newMovie,newMovie.id)
+    }
+return(
+    
+<Modal show={props.show} onHide={props.handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.movieData.title}</Modal.Title>
         
-      <Modal.Body>{props.recipe.overview}</Modal.Body>
-        
-      
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={props.handleClose}>
-        
-      
-        </Button>
+        </Modal.Header>
+        <img src={`${'https://image.tmdb.org/t/p/w500//'}${props.movieData.poster_path}`} alt={props.movieData.title}/>
+        <Modal.Body>
+            {props.movieData.comment? props.movieData.comment : "Noo comment added !!" }
+        <Form>
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>comment</Form.Label>
+        <Form.Control ref={commentRef} type="text" placeholder="Enter your comment" />
+        <Form.Text className="text-muted">
+         enter your comment.
+        </Form.Text>
+      </Form.Group>
 
-      </Modal.Footer>
-    </Modal>
-  );
+      <Button variant="primary" type="submit" onClick={(e)=>submitHandler(e)}>
+        Submit
+      </Button>
+    </Form></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={props.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+)
+
 }
-

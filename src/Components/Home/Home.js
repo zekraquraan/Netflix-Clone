@@ -1,10 +1,11 @@
 import{useState,useEffect} from 'react';
 import MovieList from '../MovieList/MovieList'
-//import Card from 'react-bootstrap/Card';
-//import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+
 export default function Home(){
     
-    const[recipes,setMovies]=useState([]);
+    const[movies,setMovies]=useState([]);
     async function getMovies(){
         // const url=process.env.REACT_APP_SERVER_URL;
         const url='https://movies-library-pull-9.onrender.com'
@@ -14,12 +15,25 @@ export default function Home(){
         const moviesData=await response.json();
         console.log(333333,moviesData)
         setMovies(moviesData);
-        console.log(44444,recipes);
+        console.log(44444,movies);
     }
+    function commentHandler(newMovie,id){
+       movies.map(movie=>{
+         if(movie.id ===id){
+            movie.comment=newMovie.userComment;
+            return movie;
+         }else{
+            return movie
+         }
+       })
+    }
+
+
+
     useEffect(()=>{getMovies()},[])
     return(
         <>
-        < MovieList recipes={recipes}/>
+        < MovieList movies={movies} commentHandler={commentHandler}/>
         </>
     )
     

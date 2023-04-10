@@ -1,81 +1,72 @@
-import {useEffect, useState} from 'react';
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Card, Button } from 'react-bootstrap';
 
+function FavList() {
+  const [favorites, setFavorites] = useState([]);
 
-export default function FavRecipes(){
+  useEffect(() => {
+    // retrieve data from database
+    axios.get('/api/favorites')
+      .then(response => {
+        setFavorites(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
-    const [favRecipes,setFavRecipes ] = useState([]);
+  const handleDelete = (id) => {
+    // remove item from favorites list
+    const newFavorites = favorites.filter(favorite => favorite.id !== id);
+    setFavorites(newFavorites);
 
+    // send DELETE request to database
+    axios.delete(`/api/favorites/${id}`)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-    async function getFavRecipes(){
-        let url =`${process.env.REACT_APP_SERVER_URL}/favRecipes`;
+  const handleUpdate = (id, comment) => {
+    // update comment for item in favorites list
+    const updatedFavorites = favorites.map(favorite => {
+      if (favorite.id === id) {
+        return { ...favorite, comment };
+      } else {
+        return favorite;
+      }
+    });
+    setFavorites(updatedFavorites);
 
-        let response = await fetch(url,{
-            method: 'GET',
-        })
+    // send PUT request to database
+    axios.put(`/api/favorites/${id}`, { comment })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
-        let recivedData = await response.json();
-        setFavRecipes(recivedData)
-
-       
-    }
-
-    async function handleDelete(id){
-        let url =`${process.env.REACT_APP_SERVER_URL}/deleteFavRecipe/${id}`;
-
-        let response = await fetch(url,{
-
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-        })
-  
-
-        if(response.status === 204){
-            getFavRecipes();
-            // alert("successfully deleted !!")
-
-        }
-
-        
-
-
-    }
-
-
-
-
-    useEffect(()=>{
-        getFavRecipes();
-
-        // console.log(favRecipes)
-
-    },[])
-
-
-
-    return(
-        <>
-        <h2> this is Fav recipes Page</h2>
-
-        {
-            favRecipes && favRecipes.map(recipe=>{
-                return(
-                    <Card style={{ width: "18rem" }}>
-                    <Card.Img variant="top" src={recipe.sourceurl} />
-                    <Card.Body>
-                      <Card.Title>{recipe.title}</Card.Title>
-                      <Card.Text>{recipe.summary.substring(0,100)}</Card.Text>
-                      <Button variant="primary" onClick={()=>handleDelete(recipe.id)}> Delete </Button>
-                    </Card.Body>
-                  </Card>
-                )
-
-
-            })
-        }
-        </>
-    )
+  return (
+    <div>
+      {favorites.map(favorite => (
+        <Card key={favorite.id}>
+          <Card.Body>
+            <Card.Title>{favorite.title}</Card.Title>
+            <Card.Text>{favorite.description}</Card.Text>
+            <Card.Text>Comment: {favorite.comment}</Card.Text>
+            <Button variant="danger" onClick={() => handleDelete(favorite.id)}>Delete</Button>
+            <Button variant="primary" onClick={() => handleUpdate(favorite.id, prompt("Enter a new comment"))}>Update</Button>
+          </Card.Body>
+        </Card>
+      ))}
+    </div>
+  );
 }
+
+export default FavList;
