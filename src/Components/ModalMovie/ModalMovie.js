@@ -27,7 +27,7 @@ export default function ModalMovie(props) {
 
   return (
 <div>
-    <Modal show={props.show} onHide={props.handleClose} >
+    <Modal show={props.show} onHide={props.handleClose} animation={false} >
       <ModalHeader closeButton>
         <ModalTitle>{props.movieData.title}</ModalTitle>
 

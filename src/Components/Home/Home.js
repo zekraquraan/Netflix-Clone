@@ -4,7 +4,7 @@ import MovieList from '../MovieList/MovieList'
 //import Button from 'react-bootstrap/Button';
 //import ModalMovie from '../ModalMovie/ModalMovie';
 //import { propTypes } from 'react-bootstrap/esm/Image';
-import Example from '../ModalMovie/test';
+
 export default function Home(){
     
     const[movies,setMovies]=useState([]);
@@ -37,7 +37,7 @@ export default function Home(){
         <>
         
         < MovieList movies={movies} commentHandler={commentHandler}/>
-        <Example></Example>
+        
         </>
     )
     
