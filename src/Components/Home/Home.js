@@ -1,8 +1,10 @@
 import{useState,useEffect} from 'react';
 import MovieList from '../MovieList/MovieList'
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-
+//import Card from 'react-bootstrap/Card';
+//import Button from 'react-bootstrap/Button';
+//import ModalMovie from '../ModalMovie/ModalMovie';
+//import { propTypes } from 'react-bootstrap/esm/Image';
+import Example from '../ModalMovie/test';
 export default function Home(){
     
     const[movies,setMovies]=useState([]);
@@ -33,7 +35,9 @@ export default function Home(){
     useEffect(()=>{getMovies()},[])
     return(
         <>
+        
         < MovieList movies={movies} commentHandler={commentHandler}/>
+        <Example></Example>
         </>
     )
     

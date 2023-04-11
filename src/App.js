@@ -4,6 +4,7 @@ import Home from "./Components/Home/Home";
 import FavList from "./Components/FavList/FavList";
 import NavBar from "./Components/NavBar/NavBar";
 
+
 function App() {
   return (
     <>

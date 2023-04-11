@@ -1,5 +1,5 @@
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+//import Card from 'react-bootstrap/Card';
+//import Button from 'react-bootstrap/Button';
 
 import Movie from '../Movie/Movie'
 export default function MovieList(props){
@@ -8,7 +8,7 @@ export default function MovieList(props){
     
     props.movies.map(movie=>{
        return(
-        <Movie movie={movie} commentHandler={props.commentHandler}/>
+        <Movie movie={movie}/>
        )
     })
     
