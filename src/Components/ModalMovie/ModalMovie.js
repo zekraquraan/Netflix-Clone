@@ -18,7 +18,7 @@ export default function ModalMovie(props) {
   // };
 
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal show={props.show} onHide={props.handleClose} animation={false}>
       <Modal.Header closeButton>
         <Modal.Title>{props.recipe.title}</Modal.Title>
       </Modal.Header>
@@ -27,8 +27,8 @@ export default function ModalMovie(props) {
       <Modal.Body>{props.recipe.overview}</Modal.Body>
         
       
-      <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
+      <Modal.Footer >
+        <Button variant="secondary" onClick={props.handleClose} >
           Close
         </Button>
         <Button variant="primary" onClick={props.handleClose}>
